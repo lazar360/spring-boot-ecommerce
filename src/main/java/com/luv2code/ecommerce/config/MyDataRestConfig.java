@@ -14,6 +14,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Configuration
 public class MyDataRestConfig implements RepositoryRestConfigurer {
@@ -52,20 +53,13 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
 
         // expose entity ids
 
-        // get a list of all entity classes
-        Set<EntityType<?>> entities = entityManager.getMetamodel().getEntities();
-
-        // create an array
-        List<Class> entityClasses = new ArrayList<>();
-
-        // get the entity type for entities
-        for (EntityType tempEntityType : entities) {
-            entityClasses.add(tempEntityType.getJavaType());
-        }
-
-        // expose the entity ids for the entity/domain types
-        Class[] domainTypes = entityClasses.toArray(new Class[0]);
-        config.exposeIdsFor(domainTypes);
+        config.exposeIdsFor(entityManager
+                .getMetamodel()
+                .getEntities()
+                .stream()
+                .map(e -> e.getJavaType())
+                .toList()
+                .toArray(new Class[0]));
 
     }
 }
