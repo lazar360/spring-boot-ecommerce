@@ -1,9 +1,6 @@
 package com.luv2code.ecommerce.config;
 
-import com.luv2code.ecommerce.entity.Country;
-import com.luv2code.ecommerce.entity.Product;
-import com.luv2code.ecommerce.entity.ProductCategory;
-import com.luv2code.ecommerce.entity.State;
+import com.luv2code.ecommerce.entity.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.metamodel.EntityType;
 import jakarta.persistence.metamodel.Type;
@@ -45,6 +42,7 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
         disableHttpMethods(ProductCategory.class, config, theUnSupportedActions);
         disableHttpMethods(Country.class, config, theUnSupportedActions);
         disableHttpMethods(State.class, config, theUnSupportedActions);
+        disableHttpMethods(Order.class, config, theUnSupportedActions);
 
         // call an internal helper method
         exposeIds(config);
